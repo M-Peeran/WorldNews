@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import com.peeranm.worldnews.core.collectWithLifecycle
+import com.peeranm.worldnews.core.showToast
 import com.peeranm.worldnews.databinding.FragmentArticleBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,6 +21,7 @@ class ArticleFragment : Fragment() {
     get() = _binding!!
 
     private val viewModel: ArticleViewModel by viewModels()
+    private val args: ArticleFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +38,27 @@ class ArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.loadArticle()
+        binding.handleOnFabFavouriteClick()
+
+        collectWithLifecycle(viewModel.uiAction) { uiAction ->
+            when (uiAction) {
+                is UiAction.ShowMessage -> showToast(uiAction.message)
+                is UiAction.None -> Unit
+            }
+        }
+    }
+
+    private fun FragmentArticleBinding.loadArticle() {
+        val article = args.selectedArticle
+        webviewArticle.webViewClient = WebViewClient()
+        webviewArticle.loadUrl(article.url)
+    }
+
+    private fun FragmentArticleBinding.handleOnFabFavouriteClick() {
+        fabFavouriteArticle.setOnClickListener {
+            viewModel.onEvent(ArticleEvent.SaveArticle(args.selectedArticle))
+        }
     }
 
     override fun onDestroyView() {
