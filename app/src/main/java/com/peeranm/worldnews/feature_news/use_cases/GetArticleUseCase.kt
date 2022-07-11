@@ -6,6 +6,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class GetArticleUseCase(private val repository: NewsRepository) {
-    suspend operator fun invoke(id: Int): Article?
+    suspend operator fun invoke(id: Long): Article?
     = withContext(Dispatchers.IO) { repository.getArticleById(id) }
 }

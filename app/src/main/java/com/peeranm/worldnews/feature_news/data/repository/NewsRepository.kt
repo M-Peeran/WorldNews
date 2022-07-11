@@ -10,7 +10,7 @@ interface NewsRepository {
     fun getHeadlines(): Flow<PagingData<Article>>
     fun searchNews(searchQuery: String): Flow<PagingData<Article>>
     fun getFavArticles(): Flow<List<FavArticle>>
-    suspend fun getArticleById(id: Int): Article?
+    suspend fun getArticleById(id: Long): Article?
     suspend fun insertFavArticle(favArticle: FavArticle)
     suspend fun deleteFavArticleById(id: String)
     suspend fun getFavArticleById(id: String): FavArticle?

@@ -7,7 +7,7 @@ import com.peeranm.worldnews.feature_news.data.remote.dto.SourceDto
 @Entity(tableName = "table_articles")
 data class ArticleEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     val author: String,
     val content: String,
     val description: String,

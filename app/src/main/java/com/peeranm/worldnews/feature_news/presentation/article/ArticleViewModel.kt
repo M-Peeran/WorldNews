@@ -30,7 +30,7 @@ class ArticleViewModel @Inject constructor(
         when (event) {
             is ArticleEvent.SaveArticle -> viewModelScope.launch {
                 val articleId = savedStateHandle.get<Long>(Constants.ARG_ARTICLE_ID) ?: return@launch
-                val article = articleUseCases.getArticle(articleId.toInt()) ?: return@launch
+                val article = articleUseCases.getArticle(articleId) ?: return@launch
                 articleUseCases.insertFavArticle(
                     FavArticle(
                         title = article.title,

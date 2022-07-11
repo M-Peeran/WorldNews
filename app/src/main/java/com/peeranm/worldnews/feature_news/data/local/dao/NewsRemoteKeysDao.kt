@@ -10,7 +10,7 @@ import com.peeranm.worldnews.feature_news.data.local.entity.ArticleRemoteKeys
 interface NewsRemoteKeysDao {
 
     @Query("select * from table_remote_keys where articleId = :articleId")
-    suspend fun getRemoteKeysByArticleId(articleId: Int): ArticleRemoteKeys?
+    suspend fun getRemoteKeysByArticleId(articleId: Long): ArticleRemoteKeys?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(remoteKey: List<ArticleRemoteKeys>)
