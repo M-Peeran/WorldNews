@@ -53,6 +53,12 @@ class NewsRepositoryImpl(
         ).flow
     }
 
+    override suspend fun getArticleById(id: Int): Article? {
+        return database.newsDao().getArticleById(id)?.let {
+            mapper.fromEntityToUiModel(it)
+        }
+    }
+
     override fun getFavArticles(): Flow<List<FavArticle>> {
         return database.favArticlesDao().getFavArticles()
     }

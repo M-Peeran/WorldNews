@@ -39,6 +39,7 @@ object AppModule {
         return ArticleUseCases(
             getHeadlines = GetHeadlinesUseCase(repository),
             searchNews = SearchNewsUseCase(repository),
+            getArticle = GetArticleUseCase(repository),
             insertFavArticle = InsertFavArticleUseCase(repository),
             getFavArticle = GetFavArticleUseCase(repository),
             getFavArticles = GetFavArticlesUseCase(repository),

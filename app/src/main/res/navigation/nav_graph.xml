@@ -32,8 +32,8 @@
         android:label="ArticleFragment"
         tools:layout="@layout/fragment_article" >
         <argument
-            android:name="selectedArticle"
-            app:argType="com.peeranm.worldnews.feature_news.model.Article" />
+            android:name="selectedArticleId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/favouriteArticlesFragment"

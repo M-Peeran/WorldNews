@@ -13,6 +13,9 @@ interface NewsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(articles: List<ArticleEntity>)
 
+    @Query("select * from table_articles where id =:id")
+    suspend fun getArticleById(id: Int): ArticleEntity?
+
     @Query("select * from table_articles")
     fun getHeadlinesPagingSource(): PagingSource<Int, ArticleEntity>
 
