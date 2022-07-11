@@ -17,8 +17,8 @@ interface FavArticleDao {
     fun getFavArticles(): Flow<List<FavArticle>>
 
     @Query("select * from table_favourite_articles where id =:id")
-    suspend fun getFavArticleById(id: Long): FavArticle?
+    suspend fun getFavArticleById(id: String): FavArticle?
 
     @Query("delete from table_favourite_articles where id =:id")
-    suspend fun deleteFavArticleById(id: Long)
+    suspend fun deleteFavArticleById(id: String)
 }

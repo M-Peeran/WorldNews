@@ -12,6 +12,6 @@ interface NewsRepository {
     fun getFavArticles(): Flow<List<FavArticle>>
     suspend fun getArticleById(id: Int): Article?
     suspend fun insertFavArticle(favArticle: FavArticle)
-    suspend fun deleteFavArticleById(id: Long)
-    suspend fun getFavArticleById(id: Long): FavArticle?
+    suspend fun deleteFavArticleById(id: String)
+    suspend fun getFavArticleById(id: String): FavArticle?
 }

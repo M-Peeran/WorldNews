@@ -67,11 +67,11 @@ class NewsRepositoryImpl(
         database.favArticlesDao().insert(favArticle)
     }
 
-    override suspend fun deleteFavArticleById(id: Long) {
+    override suspend fun deleteFavArticleById(id: String) {
         database.favArticlesDao().deleteFavArticleById(id)
     }
 
-    override suspend fun getFavArticleById(id: Long): FavArticle? {
+    override suspend fun getFavArticleById(id: String): FavArticle? {
         return database.favArticlesDao().getFavArticleById(id)
     }
 }
