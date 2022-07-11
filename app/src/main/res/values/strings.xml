@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WorldNews</string>
+    <string name="search">Search</string>
+    <string name="change_country">Change Country</string>
+    <string name="headlines">Headlines</string>
+    <string name="search_results">Search Results</string>
+</resources>
