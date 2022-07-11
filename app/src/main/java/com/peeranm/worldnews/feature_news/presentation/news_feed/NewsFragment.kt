@@ -60,7 +60,9 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
     }
 
     override fun onItemClick(view: View?, data: Article, position: Int) {
-
+        findNavController().navigate(
+            NewsFragmentDirections.actionNewsFragmentToArticleFragment(data)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
