@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peeranm.worldnews.R
@@ -44,22 +45,28 @@ class SearchResultFragment : Fragment(), OnItemClickListener<Article> {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setActionbarTitle(R.string.search_results)
-
-        adapter = ArticleAdapter(this)
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.listSearchResults.adapter = adapter
-        binding.listSearchResults.layoutManager = layoutManager
-        binding.listSearchResults.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
+        binding.bindList()
 
         collectWithLifecycle(viewModel.searchResults) {
             adapter?.submitData(it)
         }
-
-        viewModel.onEvent(SearchResultEvent.Search)
     }
 
     override fun onItemClick(view: View?, data: Article, position: Int) {
+        findNavController().navigate(
+            SearchResultFragmentDirections.actionSearchResultFragmentToArticleFragment(
+                articleUrl = data.url,
+                articleId = data.id
+            )
+        )
+    }
 
+    private fun FragmentSearchResultBinding.bindList() {
+        adapter = ArticleAdapter(this@SearchResultFragment)
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        listSearchResults.adapter = adapter
+        listSearchResults.layoutManager = layoutManager
+        listSearchResults.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
     }
 
     override fun onDestroyView() {

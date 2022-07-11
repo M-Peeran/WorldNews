@@ -25,6 +25,9 @@
         <argument
             android:name="searchQuery"
             app:argType="string" />
+        <action
+            android:id="@+id/action_searchResultFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
     </fragment>
     <fragment
         android:id="@+id/articleFragment"
