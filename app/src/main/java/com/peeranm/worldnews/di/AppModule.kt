@@ -5,9 +5,7 @@ import com.peeranm.worldnews.feature_news.data.local.NewsDatabase
 import com.peeranm.worldnews.feature_news.data.remote.RetrofitInstance
 import com.peeranm.worldnews.feature_news.data.repository.NewsRepository
 import com.peeranm.worldnews.feature_news.data.repository.impl.NewsRepositoryImpl
-import com.peeranm.worldnews.feature_news.use_cases.ArticleUseCases
-import com.peeranm.worldnews.feature_news.use_cases.GetHeadlinesUseCase
-import com.peeranm.worldnews.feature_news.use_cases.SearchNewsUseCase
+import com.peeranm.worldnews.feature_news.use_cases.*
 import com.peeranm.worldnews.feature_news.utils.ArticleMapper
 import dagger.Module
 import dagger.Provides
@@ -40,7 +38,11 @@ object AppModule {
     fun provideArticleUseCases(repository: NewsRepository): ArticleUseCases {
         return ArticleUseCases(
             getHeadlines = GetHeadlinesUseCase(repository),
-            searchNews = SearchNewsUseCase(repository)
+            searchNews = SearchNewsUseCase(repository),
+            insertFavArticle = InsertFavArticleUseCase(repository),
+            getFavArticle = GetFavArticleUseCase(repository),
+            getFavArticles = GetFavArticlesUseCase(repository),
+            deleteFavArticle = DeleteFavArticleUseCase(repository)
         )
     }
 
