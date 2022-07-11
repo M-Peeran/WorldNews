@@ -35,4 +35,9 @@
             android:name="selectedArticle"
             app:argType="com.peeranm.worldnews.feature_news.model.Article" />
     </fragment>
+    <fragment
+        android:id="@+id/favouriteArticlesFragment"
+        android:name="com.peeranm.worldnews.feature_news.presentation.favourite_articles.FavouriteArticlesFragment"
+        android:label="FavouriteArticlesFragment"
+        tools:layout="@layout/fragment_favourite_articles" />
 </navigation>
