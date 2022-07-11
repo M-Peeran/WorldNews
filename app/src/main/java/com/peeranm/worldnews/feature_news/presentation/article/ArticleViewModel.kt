@@ -22,17 +22,14 @@ class ArticleViewModel @Inject constructor(
     val uiAction: StateFlow<UiAction> = _uiAction
 
     init {
-        viewModelScope.launch {
-            val selectedArticleId = savedStateHandle.get<Long>(Constants.ARG_SELECTED_ARTICLE_ID) ?: return@launch
-            val article = articleUseCases.getArticle(selectedArticleId.toInt()) ?: return@launch
-            _uiAction.value = UiAction.LoadArticle(article.url)
-        }
+        val isFavourite = savedStateHandle.get<Boolean>(Constants.ARG_IS_FAVOURITE)
+        if (isFavourite == true) _uiAction.value = UiAction.HideFabFavouriteArticle
     }
 
     fun onEvent(event: ArticleEvent) {
         when (event) {
             is ArticleEvent.SaveArticle -> viewModelScope.launch {
-                val articleId = savedStateHandle.get<Long>(Constants.ARG_SELECTED_ARTICLE_ID) ?: return@launch
+                val articleId = savedStateHandle.get<Long>(Constants.ARG_ARTICLE_ID) ?: return@launch
                 val article = articleUseCases.getArticle(articleId.toInt()) ?: return@launch
                 articleUseCases.insertFavArticle(
                     FavArticle(

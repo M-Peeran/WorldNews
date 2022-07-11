@@ -38,20 +38,29 @@ class ArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.loadArticle()
         binding.handleOnFabFavouriteClick()
 
         collectWithLifecycle(viewModel.uiAction) { uiAction ->
             when (uiAction) {
                 is UiAction.ShowMessage -> showToast(uiAction.message)
-                is UiAction.LoadArticle -> binding.loadArticle(uiAction.url)
+                is UiAction.HideFabFavouriteArticle -> binding.hideFabFavouriteArticle()
                 is UiAction.None -> Unit
             }
         }
     }
 
-    private fun FragmentArticleBinding.loadArticle(url: String) {
+    private fun FragmentArticleBinding.hideFabFavouriteArticle() {
+        fabFavouriteArticle.visibility = View.GONE
+    }
+
+    private fun FragmentArticleBinding.loadArticle() {
+        if (args.articleUrl.isEmpty()) {
+            showToast("Invalid URL!")
+            return
+        }
         webviewArticle.webViewClient = WebViewClient()
-        webviewArticle.loadUrl(url)
+        webviewArticle.loadUrl(args.articleUrl)
     }
 
     private fun FragmentArticleBinding.handleOnFabFavouriteClick() {

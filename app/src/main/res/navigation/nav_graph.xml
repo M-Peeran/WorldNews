@@ -32,8 +32,17 @@
         android:label="ArticleFragment"
         tools:layout="@layout/fragment_article" >
         <argument
-            android:name="selectedArticleId"
-            app:argType="long" />
+            android:name="articleUrl"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="articleId"
+            app:argType="integer"
+            android:defaultValue="-1" />
+        <argument
+            android:name="isFavourite"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </fragment>
     <fragment
         android:id="@+id/favouriteArticlesFragment"
