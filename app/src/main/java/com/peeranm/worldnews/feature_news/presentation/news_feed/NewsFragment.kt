@@ -45,16 +45,19 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
         setActionbarTitle(R.string.headlines)
-
-        adapter = ArticleAdapter(this)
-        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.listNews.adapter = adapter
-        binding.listNews.layoutManager = layoutManager
-        binding.listNews.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
+        binding.bindList()
 
         collectWithLifecycle(viewModel.articles) {
             adapter?.submitData(it)
         }
+    }
+
+    private fun FragmentNewsBinding.bindList() {
+        adapter = ArticleAdapter(this@NewsFragment)
+        val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        listNews.adapter = adapter
+        listNews.layoutManager = layoutManager
+        listNews.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
     }
 
     override fun onItemClick(view: View?, data: Article, position: Int) {
