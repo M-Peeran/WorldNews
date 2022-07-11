@@ -38,26 +38,25 @@ class ArticleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.loadArticle()
         binding.handleOnFabFavouriteClick()
 
         collectWithLifecycle(viewModel.uiAction) { uiAction ->
             when (uiAction) {
                 is UiAction.ShowMessage -> showToast(uiAction.message)
+                is UiAction.LoadArticle -> binding.loadArticle(uiAction.url)
                 is UiAction.None -> Unit
             }
         }
     }
 
-    private fun FragmentArticleBinding.loadArticle() {
-        val article = args.selectedArticle
+    private fun FragmentArticleBinding.loadArticle(url: String) {
         webviewArticle.webViewClient = WebViewClient()
-        webviewArticle.loadUrl(article.url)
+        webviewArticle.loadUrl(url)
     }
 
     private fun FragmentArticleBinding.handleOnFabFavouriteClick() {
         fabFavouriteArticle.setOnClickListener {
-            viewModel.onEvent(ArticleEvent.SaveArticle(args.selectedArticle))
+            viewModel.onEvent(ArticleEvent.SaveArticle)
         }
     }
 
