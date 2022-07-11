@@ -11,17 +11,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 @OptIn(ExperimentalPagingApi::class)
-class NewsViewModel @Inject constructor(private val articleUseCases: ArticleUseCases) : ViewModel() {
+class NewsViewModel @Inject constructor(articleUseCases: ArticleUseCases) : ViewModel() {
 
     private val _articles = MutableStateFlow<PagingData<Article>>(PagingData.empty())
     val articles: StateFlow<PagingData<Article>> = _articles
 
-    fun onEvent(event: NewsFeedEvent) {
-        when (event) {
-            is NewsFeedEvent.FetchHeadlines -> articleUseCases.getHeadlines()
-                .onEach { _articles.value = it }
-                .launchIn(viewModelScope)
-        }
+    init {
+        articleUseCases.getHeadlines()
+            .cachedIn(viewModelScope)
+            .onEach { _articles.value = it }
+            .launchIn(viewModelScope)
     }
 
 }

@@ -55,8 +55,6 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
         collectWithLifecycle(viewModel.articles) {
             adapter?.submitData(it)
         }
-
-        viewModel.onEvent(NewsFeedEvent.FetchHeadlines)
     }
 
     override fun onItemClick(view: View?, data: Article, position: Int) {
