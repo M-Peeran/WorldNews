@@ -1,24 +1,20 @@
 package com.peeranm.worldnews.feature_news.presentation.favourite_articles
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.peeranm.worldnews.feature_news.data.local.entity.FavArticle
+import com.peeranm.worldnews.feature_news.use_cases.ArticleUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
 class FavouriteArticlesViewModel @Inject constructor(
-    private val savedStateHandle: SavedStateHandle,
+    articleUseCases: ArticleUseCases
 ) : ViewModel() {
 
-    private val _uiAction = MutableStateFlow<UiAction>(UiAction.None)
-    val uiAction: StateFlow<UiAction> = _uiAction
+    val favArticles: StateFlow<List<FavArticle>>
+    = articleUseCases.getFavArticles().stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
-    fun onEvent(event: FavouriteArticlesEvent) {
-        when (event) {
-
-        }
-    }
 
 }
