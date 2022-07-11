@@ -48,5 +48,9 @@
         android:id="@+id/favouriteArticlesFragment"
         android:name="com.peeranm.worldnews.feature_news.presentation.favourite_articles.FavouriteArticlesFragment"
         android:label="FavouriteArticlesFragment"
-        tools:layout="@layout/fragment_favourite_articles" />
+        tools:layout="@layout/fragment_favourite_articles" >
+        <action
+            android:id="@+id/action_favouriteArticlesFragment_to_articleFragment"
+            app:destination="@id/articleFragment" />
+    </fragment>
 </navigation>
