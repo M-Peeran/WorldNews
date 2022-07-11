@@ -23,4 +23,9 @@
             android:name="searchQuery"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.peeranm.worldnews.feature_news.presentation.article.ArticleFragment"
+        android:label="ArticleFragment"
+        tools:layout="@layout/fragment_article" />
 </navigation>
