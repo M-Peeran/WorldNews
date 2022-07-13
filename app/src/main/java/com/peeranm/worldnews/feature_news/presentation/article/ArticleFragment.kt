@@ -39,14 +39,14 @@ class ArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.loadArticle()
-        binding.toggleFabFavouriteArticle()
+        binding.toggleFabFavouriteArticle(args.isFavourite)
         binding.handleOnFabFavouriteClick()
 
         collectWithLifecycle(viewModel.message) { message -> showToast(message) }
     }
 
-    private fun FragmentArticleBinding.toggleFabFavouriteArticle() {
-        fabFavouriteArticle.visibility = if (args.isFavourite) View.GONE else View.VISIBLE
+    private fun FragmentArticleBinding.toggleFabFavouriteArticle(hideNow: Boolean = false) {
+        fabFavouriteArticle.visibility = if (hideNow) View.GONE else View.VISIBLE
     }
 
     private fun FragmentArticleBinding.loadArticle() {
@@ -60,6 +60,7 @@ class ArticleFragment : Fragment() {
 
     private fun FragmentArticleBinding.handleOnFabFavouriteClick() {
         fabFavouriteArticle.setOnClickListener {
+            binding.toggleFabFavouriteArticle(true)
             viewModel.saveArticle()
         }
     }
