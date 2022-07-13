@@ -8,7 +8,7 @@ import com.peeranm.worldnews.feature_news.data.local.entity.FavArticle
 import com.peeranm.worldnews.feature_news.use_cases.ArticleUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,34 +18,32 @@ class ArticleViewModel @Inject constructor(
     private val articleUseCases: ArticleUseCases
 ) : ViewModel() {
 
-    private val _uiAction = MutableStateFlow<UiAction>(UiAction.None)
-    val uiAction: StateFlow<UiAction> = _uiAction
+    private val _message = MutableStateFlow("")
+    val message = _message.asStateFlow()
 
-    init {
-        val isFavourite = savedStateHandle.get<Boolean>(Constants.ARG_IS_FAVOURITE)
-        if (isFavourite == true) _uiAction.value = UiAction.HideFabFavouriteArticle
-    }
-
-    fun onEvent(event: ArticleEvent) {
-        when (event) {
-            is ArticleEvent.SaveArticle -> viewModelScope.launch {
-                val articleId = savedStateHandle.get<Long>(Constants.ARG_ARTICLE_ID) ?: return@launch
-                val article = articleUseCases.getArticle(articleId) ?: return@launch
-                articleUseCases.insertFavArticle(
-                    FavArticle(
-                        title = article.title,
-                        url = article.url,
-                        author = article.author,
-                        content  = article.content,
-                        description = article.description,
-                        publishedAt = article.publishedAt,
-                        source = article.source,
-                        urlToImage = article.urlToImage
-                    )
-                )
-            }.invokeOnCompletion {
-                _uiAction.value = UiAction.ShowMessage("Added to favourites!")
+    fun saveArticle() {
+        val articleId = savedStateHandle.get<Long>(Constants.ARG_ARTICLE_ID)
+        if (articleId == null) {
+            _message.value = "ArticleId is null!"
+            return
+        }
+        viewModelScope.launch {
+            val article = articleUseCases.getArticle(articleId)
+            if (article == null) {
+                _message.value = "The article you are looking for is not found; Hence cannot be saved!"
+                return@launch
             }
+            articleUseCases.insertFavArticle(FavArticle(
+                title = article.title,
+                url = article.url,
+                author = article.author,
+                content  = article.content,
+                description = article.description,
+                publishedAt = article.publishedAt,
+                source = article.source,
+                urlToImage = article.urlToImage
+            ))
+            _message.value = "Added to favourites!"
         }
     }
 }
