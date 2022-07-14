@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.peeranm.worldnews.core.Constants
 import com.peeranm.worldnews.feature_news.data.local.entity.FavArticle
+import com.peeranm.worldnews.feature_news.model.Article
 import com.peeranm.worldnews.feature_news.use_cases.ArticleUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,17 +23,12 @@ class ArticleViewModel @Inject constructor(
     val message = _message.asStateFlow()
 
     fun saveArticle() {
-        val articleId = savedStateHandle.get<Long>(Constants.ARG_ARTICLE_ID)
-        if (articleId == null) {
-            _message.value = "ArticleId is null!"
+        val article = savedStateHandle.get<Article>(Constants.ARG_ARTICLE)
+        if (article == null) {
+            _message.value = "The article you are looking for is not found; Hence cannot be saved!"
             return
         }
         viewModelScope.launch {
-            val article = articleUseCases.getArticle(articleId)
-            if (article == null) {
-                _message.value = "The article you are looking for is not found; Hence cannot be saved!"
-                return@launch
-            }
             articleUseCases.insertFavArticle(FavArticle(
                 title = article.title,
                 url = article.url,

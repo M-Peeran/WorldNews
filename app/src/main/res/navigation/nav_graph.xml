@@ -37,15 +37,17 @@
         <argument
             android:name="articleUrl"
             app:argType="string"
-            android:defaultValue="" />
-        <argument
-            android:name="articleId"
-            app:argType="long"
-            android:defaultValue="-1L" />
+            android:defaultValue="@null"
+            app:nullable="true" />
         <argument
             android:name="isFavourite"
             app:argType="boolean"
             android:defaultValue="false" />
+        <argument
+            android:name="article"
+            app:argType="com.peeranm.worldnews.feature_news.model.Article"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/favouriteArticlesFragment"

@@ -39,7 +39,6 @@ class ArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.loadArticle()
-        binding.toggleFabFavouriteArticle(args.isFavourite)
         binding.handleOnFabFavouriteClick()
 
         collectWithLifecycle(viewModel.message) { message -> showToast(message) }
@@ -50,12 +49,26 @@ class ArticleFragment : Fragment() {
     }
 
     private fun FragmentArticleBinding.loadArticle() {
-        if (args.articleUrl.isEmpty()) {
-            showToast("Invalid URL!")
-            return
+        val article = args.article
+        val articleUrl = args.articleUrl
+        val isFavouriteArticle = args.isFavourite
+
+        when {
+            article != null -> {
+                webviewArticle.webViewClient = WebViewClient()
+                webviewArticle.loadUrl(article.url)
+                toggleFabFavouriteArticle(hideNow = false)
+            }
+            articleUrl.isNullOrEmpty() -> {
+                showToast("Article url is not found!")
+                toggleFabFavouriteArticle(hideNow = true)
+            }
+            isFavouriteArticle -> {
+                webviewArticle.webViewClient = WebViewClient()
+                webviewArticle.loadUrl(articleUrl)
+                toggleFabFavouriteArticle(hideNow = true)
+            }
         }
-        webviewArticle.webViewClient = WebViewClient()
-        webviewArticle.loadUrl(args.articleUrl)
     }
 
     private fun FragmentArticleBinding.handleOnFabFavouriteClick() {
