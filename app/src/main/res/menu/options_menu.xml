@@ -6,12 +6,11 @@
         android:id="@+id/actionSearch"
         android:title="@string/search"
         android:icon="@drawable/ic_search"
-        app:showAsAction="always|collapseActionView"
+        app:showAsAction="ifRoom|collapseActionView"
         app:actionViewClass="androidx.appcompat.widget.SearchView" />
 
     <item
         android:id="@+id/actionChangeCountry"
         android:title="@string/change_country"
-        android:icon="@drawable/ic_filter_list"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>
