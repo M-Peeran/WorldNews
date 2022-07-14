@@ -1,6 +1,7 @@
 package com.peeranm.worldnews.core
 
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -19,6 +20,14 @@ fun Fragment.setActionbarTitle(@StringRes stringRes: Int) {
 
 fun Fragment.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(requireContext(), message, duration).show()
+}
+
+fun Fragment.handleOnBackPressed() {
+    requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            requireActivity().finish()
+        }
+    })
 }
 
 fun <T> LifecycleOwner.collectWithLifecycle(flow: Flow<T>, collect: FlowCollector<T>) =

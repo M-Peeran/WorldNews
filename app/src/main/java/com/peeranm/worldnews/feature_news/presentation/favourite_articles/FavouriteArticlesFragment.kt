@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peeranm.worldnews.core.collectWithLifecycle
+import com.peeranm.worldnews.core.handleOnBackPressed
 import com.peeranm.worldnews.databinding.FragmentFavouriteArticlesBinding
 import com.peeranm.worldnews.feature_news.data.local.entity.FavArticle
 import com.peeranm.worldnews.feature_news.utils.FavArticleAdapter
@@ -42,6 +43,7 @@ class FavouriteArticlesFragment : Fragment(), OnItemClickListener<FavArticle> {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        handleOnBackPressed()
         binding.bindList()
 
         collectWithLifecycle(viewModel.favArticles) {
