@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface NewsRepository {
-    fun getHeadlines(): Flow<PagingData<Article>>
+    fun getTrendingNews(category: String, countryCode: String): Flow<PagingData<Article>>
     fun searchNews(searchQuery: String): Flow<PagingData<Article>>
     fun getFavArticles(): Flow<List<FavArticle>>
     suspend fun getArticleById(id: Long): Article?

@@ -17,7 +17,7 @@ class NewsViewModel @Inject constructor(articleUseCases: ArticleUseCases) : View
     val articles: StateFlow<PagingData<Article>> = _articles
 
     init {
-        articleUseCases.getHeadlines()
+        articleUseCases.getTrendingNews(category = "general", countryCode = "in")
             .cachedIn(viewModelScope)
             .onEach { _articles.value = it }
             .launchIn(viewModelScope)

@@ -6,6 +6,7 @@ import com.peeranm.worldnews.feature_news.model.Article
 import kotlinx.coroutines.flow.Flow
 
 
-class GetHeadlinesUseCase(private val repository: NewsRepository) {
-    operator fun invoke(): Flow<PagingData<Article>> = repository.getHeadlines()
+class GetTrendingNewsUseCase(private val repository: NewsRepository) {
+    operator fun invoke(category:String, countryCode: String): Flow<PagingData<Article>>
+    = repository.getTrendingNews(category, countryCode)
 }

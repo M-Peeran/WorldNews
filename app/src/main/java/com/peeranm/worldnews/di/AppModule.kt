@@ -37,7 +37,7 @@ object AppModule {
     @Provides
     fun provideArticleUseCases(repository: NewsRepository): ArticleUseCases {
         return ArticleUseCases(
-            getHeadlines = GetHeadlinesUseCase(repository),
+            getTrendingNews = GetTrendingNewsUseCase(repository),
             searchNews = SearchNewsUseCase(repository),
             getArticle = GetArticleUseCase(repository),
             insertFavArticle = InsertFavArticleUseCase(repository),

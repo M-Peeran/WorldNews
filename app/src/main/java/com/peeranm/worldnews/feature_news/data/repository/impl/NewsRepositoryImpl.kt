@@ -5,7 +5,7 @@ import com.peeranm.worldnews.core.Constants
 import com.peeranm.worldnews.feature_news.data.local.NewsDatabase
 import com.peeranm.worldnews.feature_news.data.local.entity.FavArticle
 import com.peeranm.worldnews.feature_news.data.remote.RetrofitInstance
-import com.peeranm.worldnews.feature_news.data.remote.paging.HeadlinesMediatorSource
+import com.peeranm.worldnews.feature_news.data.remote.paging.TrendingNewsMediatorSource
 import com.peeranm.worldnews.feature_news.data.remote.paging.SearchNewsPagingSource
 import com.peeranm.worldnews.feature_news.data.repository.NewsRepository
 import com.peeranm.worldnews.feature_news.model.Article
@@ -20,7 +20,7 @@ class NewsRepositoryImpl(
     private val mapper: ArticleMapper
 ) : NewsRepository {
 
-    override fun getHeadlines(): Flow<PagingData<Article>> {
+    override fun getTrendingNews(category: String, countryCode: String): Flow<PagingData<Article>> {
         val pagingSourceFactory = { database.newsDao().getHeadlinesPagingSource() }
         return Pager(
             config = PagingConfig(
@@ -28,7 +28,9 @@ class NewsRepositoryImpl(
                 maxSize = Constants.MAX_ARTICLES_FOR_PAGINATION,
                 enablePlaceholders = false
             ),
-            remoteMediator = HeadlinesMediatorSource(
+            remoteMediator = TrendingNewsMediatorSource(
+                category,
+                countryCode,
                 database,
                 retrofitInstance,
                 mapper

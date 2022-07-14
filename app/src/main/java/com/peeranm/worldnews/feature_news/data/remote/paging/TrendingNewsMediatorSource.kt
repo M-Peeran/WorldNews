@@ -15,7 +15,9 @@ import java.io.InvalidObjectException
 import kotlin.Exception
 
 @OptIn(ExperimentalPagingApi::class)
-class HeadlinesMediatorSource(
+class TrendingNewsMediatorSource(
+    private val category: String,
+    private val countryCode: String,
     private val database: NewsDatabase,
     private val retrofitInstance: RetrofitInstance,
     private val mapper: ArticleMapper
@@ -38,8 +40,8 @@ class HeadlinesMediatorSource(
             }
 
             val response = retrofitInstance.newsAPI.getHeadlineNews(
-                countryCode = "in",
-                category = "general",
+                countryCode = countryCode,
+                category = category,
                 page = currentPage,
                 pageSize = state.config.pageSize
             )
