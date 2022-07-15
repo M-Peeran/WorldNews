@@ -9,10 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peeranm.worldnews.R
-import com.peeranm.worldnews.core.Constants
-import com.peeranm.worldnews.core.collectWithLifecycle
-import com.peeranm.worldnews.core.handleOnBackPressed
-import com.peeranm.worldnews.core.setActionbarTitle
+import com.peeranm.worldnews.core.*
 import com.peeranm.worldnews.databinding.FragmentNewsBinding
 import com.peeranm.worldnews.feature_news.model.Article
 import com.peeranm.worldnews.feature_news.presentation.news_feed.news_country_dialog.CountryDialog
@@ -45,10 +42,14 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
-        setFragmentResultListener()
         handleOnBackPressed()
         setActionbarTitle(R.string.headlines)
         binding.bindList()
