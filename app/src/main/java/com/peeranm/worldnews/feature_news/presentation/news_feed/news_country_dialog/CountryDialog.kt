@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.peeranm.worldnews.core.Constants
 import com.peeranm.worldnews.databinding.DialogCountryBinding
 import com.peeranm.worldnews.feature_news.utils.CountryAdapter
 import com.peeranm.worldnews.feature_news.utils.CountryCode
@@ -50,7 +53,11 @@ class CountryDialog : DialogFragment(), OnCheckChangeListener<CountryCode> {
         isSelected: Boolean,
         position: Int
     ) {
-
+        setFragmentResult(
+            Constants.KEY_COUNTRY_DIALOG_RESULT_LISTENER,
+            bundleOf(Constants.ARG_COUNTRY_DIALOG_RESULT to data.code)
+        )
+        dismiss()
     }
 
     private fun DialogCountryBinding.bindList() {
