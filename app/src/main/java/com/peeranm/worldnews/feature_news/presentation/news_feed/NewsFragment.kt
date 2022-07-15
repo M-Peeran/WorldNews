@@ -9,12 +9,15 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peeranm.worldnews.R
+import com.peeranm.worldnews.core.Constants
 import com.peeranm.worldnews.core.collectWithLifecycle
 import com.peeranm.worldnews.core.handleOnBackPressed
 import com.peeranm.worldnews.core.setActionbarTitle
 import com.peeranm.worldnews.databinding.FragmentNewsBinding
 import com.peeranm.worldnews.feature_news.model.Article
+import com.peeranm.worldnews.feature_news.presentation.news_feed.news_country_dialog.CountryDialog
 import com.peeranm.worldnews.feature_news.utils.ArticleAdapter
+import com.peeranm.worldnews.feature_news.utils.CountryCode
 import com.peeranm.worldnews.feature_news.utils.OnItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,6 +48,7 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setHasOptionsMenu(true)
+        setFragmentResultListener()
         handleOnBackPressed()
         setActionbarTitle(R.string.headlines)
         binding.bindList()
@@ -76,7 +80,7 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.actionChangeCountry -> {}
+            R.id.actionChangeCountry -> CountryDialog().show(childFragmentManager, Constants.TAG_DIALOG_COUNTRY)
         }
         return true
     }
@@ -90,6 +94,18 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
         return false
     }
     override fun onQueryTextChange(newText: String?) = false
+
+
+    private fun setFragmentResultListener() {
+        childFragmentManager.setFragmentResultListener(Constants.KEY_COUNTRY_DIALOG_RESULT_LISTENER, this) { requestKey, bundle ->
+            if (requestKey == Constants.KEY_COUNTRY_DIALOG_RESULT_LISTENER) {
+                val countryCode = bundle.get(Constants.ARG_COUNTRY_DIALOG_RESULT) as? CountryCode
+                if (countryCode != null) {
+                    viewModel.getTrendingNews(countryCode = countryCode)
+                }
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
