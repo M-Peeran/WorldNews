@@ -9,4 +9,5 @@ object Constants {
     const val ARG_ARTICLE_ID = "articleId"
     const val ARG_IS_FAVOURITE = "isFavourite"
     const val ARG_ARTICLE = "article"
+    const val TAG_DIALOG_COUNTRY = "countryDialog"
 }
