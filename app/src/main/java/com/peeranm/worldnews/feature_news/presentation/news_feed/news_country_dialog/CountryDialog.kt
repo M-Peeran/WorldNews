@@ -55,7 +55,7 @@ class CountryDialog : DialogFragment(), OnCheckChangeListener<CountryCode> {
     ) {
         setFragmentResult(
             Constants.KEY_COUNTRY_DIALOG_RESULT_LISTENER,
-            bundleOf(Constants.ARG_COUNTRY_DIALOG_RESULT to data.code)
+            bundleOf(Constants.ARG_COUNTRY_DIALOG_RESULT to data)
         )
         dismiss()
     }
