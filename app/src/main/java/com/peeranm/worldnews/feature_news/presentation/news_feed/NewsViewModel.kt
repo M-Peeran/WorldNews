@@ -21,7 +21,7 @@ class NewsViewModel @Inject constructor(
     val articles: StateFlow<PagingData<Article>> = _articles
 
     private var selectedCountryCode: CountryCode = CountryCode.INDIA
-    private var selectedNewsCategory: NewsCategory = NewsCategory.GENERAL
+    private var selectedNewsCategory: NewsCategory = NewsCategory.General
 
     init { getTrendingNews() }
 

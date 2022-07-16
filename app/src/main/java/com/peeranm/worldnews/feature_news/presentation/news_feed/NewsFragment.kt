@@ -2,6 +2,8 @@ package com.peeranm.worldnews.feature_news.presentation.news_feed
 
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,7 +20,10 @@ import com.peeranm.worldnews.feature_news.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQueryTextListener {
+class NewsFragment : Fragment(),
+    OnItemClickListener<Article>,
+    SearchView.OnQueryTextListener,
+    AdapterView.OnItemClickListener {
 
     private val viewModel: NewsViewModel by viewModels()
 
@@ -27,6 +32,7 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
     get() = _binding!!
 
     private var adapter: ArticleAdapter? = null
+    private var categoryAdapter: ArrayAdapter<NewsCategory>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +57,7 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
         setHasOptionsMenu(true)
         handleOnBackPressed()
         setActionbarTitle(R.string.headlines)
+        binding.bindNewsCategories()
         binding.bindList()
 
         collectWithLifecycle(viewModel.articles) {
@@ -66,10 +73,29 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
         listNews.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
     }
 
+    private fun FragmentNewsBinding.bindNewsCategories() {
+        categoryAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            NewsCategory.values()
+        )
+        acTextNewsCategory.setAdapter(categoryAdapter)
+        acTextNewsCategory.onItemClickListener = this@NewsFragment
+    }
+
     override fun onItemClick(view: View?, data: Article, position: Int) {
         findNavController().navigate(
             NewsFragmentDirections.actionNewsFragmentToArticleFragment(article = data)
         )
+    }
+
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val category = categoryAdapter?.getItem(position)
+        category?.let {
+            adapter?.submitData(lifecycle, PagingData.empty())
+            viewModel.setNewsCategory(it)
+            viewModel.getTrendingNews()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -112,6 +138,8 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
     override fun onDestroyView() {
         super.onDestroyView()
         adapter?.onClear()
+        binding.acTextNewsCategory.onItemClickListener = null
+        categoryAdapter = null
         adapter = null
         _binding = null
     }

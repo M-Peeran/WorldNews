@@ -7,4 +7,6 @@
     <string name="favourite">Favourite article</string>
     <string name="favourites">Favourites</string>
     <string name="retry">Retry</string>
+    <string name="news_category">News Category</string>
+    <string name="general">General</string>
 </resources>

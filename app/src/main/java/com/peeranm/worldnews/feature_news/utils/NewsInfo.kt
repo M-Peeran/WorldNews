@@ -1,13 +1,13 @@
 package com.peeranm.worldnews.feature_news.utils
 
 enum class NewsCategory(val categoryName: String) {
-    GENERAL("general"),
-    TECHNOLOGY("technology"),
-    SCIENCE("science"),
-    BUSINESS("business"),
-    SPORTS("sports"),
-    HEALTH("health"),
-    ENTERTAINMENT("entertainment")
+    General("general"),
+    Technology("technology"),
+    Science("science"),
+    Business("business"),
+    Sports("sports"),
+    Health("health"),
+    Entertainment("entertainment")
 }
 
 enum class CountryCode(val code: String, val country: String) {
