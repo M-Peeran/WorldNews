@@ -14,10 +14,7 @@ import com.peeranm.worldnews.core.*
 import com.peeranm.worldnews.databinding.FragmentNewsBinding
 import com.peeranm.worldnews.feature_news.model.Article
 import com.peeranm.worldnews.feature_news.presentation.news_feed.news_country_dialog.CountryDialog
-import com.peeranm.worldnews.feature_news.utils.ArticleAdapter
-import com.peeranm.worldnews.feature_news.utils.CountryCode
-import com.peeranm.worldnews.feature_news.utils.NewsCategory
-import com.peeranm.worldnews.feature_news.utils.OnItemClickListener
+import com.peeranm.worldnews.feature_news.utils.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -63,8 +60,8 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
 
     private fun FragmentNewsBinding.bindList() {
         adapter = ArticleAdapter(this@NewsFragment)
+        listNews.adapter = adapter?.withLoadStateFooter(footer = ArticleLoadStateAdapter { adapter?.retry() })
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        listNews.adapter = adapter
         listNews.layoutManager = layoutManager
         listNews.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
     }
