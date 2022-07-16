@@ -6,6 +6,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.peeranm.worldnews.R
@@ -15,6 +16,7 @@ import com.peeranm.worldnews.feature_news.model.Article
 import com.peeranm.worldnews.feature_news.presentation.news_feed.news_country_dialog.CountryDialog
 import com.peeranm.worldnews.feature_news.utils.ArticleAdapter
 import com.peeranm.worldnews.feature_news.utils.CountryCode
+import com.peeranm.worldnews.feature_news.utils.NewsCategory
 import com.peeranm.worldnews.feature_news.utils.OnItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -102,7 +104,8 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
             if (requestKey == Constants.KEY_COUNTRY_DIALOG_RESULT_LISTENER) {
                 val countryCode = bundle.get(Constants.ARG_COUNTRY_DIALOG_RESULT) as? CountryCode
                 if (countryCode != null) {
-                    viewModel.getTrendingNews(countryCode = countryCode)
+                    adapter?.submitData(lifecycle, PagingData.empty())
+                    viewModel.getTrendingNews(NewsCategory.GENERAL, countryCode)
                 }
             }
         }
