@@ -102,7 +102,8 @@ class NewsFragment : Fragment(), OnItemClickListener<Article>, SearchView.OnQuer
                 val countryCode = bundle.get(Constants.ARG_COUNTRY_DIALOG_RESULT) as? CountryCode
                 if (countryCode != null) {
                     adapter?.submitData(lifecycle, PagingData.empty())
-                    viewModel.getTrendingNews(NewsCategory.GENERAL, countryCode)
+                    viewModel.setCountryCode(countryCode)
+                    viewModel.getTrendingNews()
                 }
             }
         }

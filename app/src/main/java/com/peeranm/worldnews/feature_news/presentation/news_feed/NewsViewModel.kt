@@ -20,13 +20,24 @@ class NewsViewModel @Inject constructor(
     private val _articles = MutableStateFlow<PagingData<Article>>(PagingData.empty())
     val articles: StateFlow<PagingData<Article>> = _articles
 
-    init { getTrendingNews(NewsCategory.GENERAL, CountryCode.INDIA) }
+    private var selectedCountryCode: CountryCode = CountryCode.INDIA
+    private var selectedNewsCategory: NewsCategory = NewsCategory.GENERAL
 
-    fun getTrendingNews(category: NewsCategory, countryCode: CountryCode) {
-        articleUseCases.getTrendingNews(category.categoryName, countryCode.code)
+    init { getTrendingNews() }
+
+    fun getTrendingNews() {
+        articleUseCases.getTrendingNews(selectedNewsCategory.categoryName, selectedCountryCode.code)
             .cachedIn(viewModelScope)
             .onEach { _articles.value = it }
             .launchIn(viewModelScope)
+    }
+
+    fun setCountryCode(countryCode: CountryCode) {
+        selectedCountryCode = countryCode
+    }
+
+    fun setNewsCategory(category: NewsCategory) {
+        selectedNewsCategory = category
     }
 
 }
