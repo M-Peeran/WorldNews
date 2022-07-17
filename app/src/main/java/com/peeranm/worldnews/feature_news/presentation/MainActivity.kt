@@ -2,8 +2,10 @@ package com.peeranm.worldnews.feature_news.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.peeranm.worldnews.R
 import com.peeranm.worldnews.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,10 +25,20 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         binding.bindBottomNavBar()
+        binding.toggleBottomNavBar()
     }
 
     private fun ActivityMainBinding.bindBottomNavBar() {
         bottomNavigationView.setupWithNavController(navHost.findNavController())
+    }
+
+    private fun ActivityMainBinding.toggleBottomNavBar() {
+        navHost.findNavController().addOnDestinationChangedListener { navController, destination, bundle ->
+            when (destination.id) {
+                R.id.articleFragment -> bottomNavigationView.visibility = View.GONE
+                else -> bottomNavigationView.visibility = View.VISIBLE
+            }
+        }
     }
 
     override fun onDestroy() {
