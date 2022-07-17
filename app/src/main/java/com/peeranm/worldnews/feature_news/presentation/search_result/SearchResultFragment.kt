@@ -15,6 +15,7 @@ import com.peeranm.worldnews.core.setActionbarTitle
 import com.peeranm.worldnews.databinding.FragmentSearchResultBinding
 import com.peeranm.worldnews.feature_news.model.Article
 import com.peeranm.worldnews.feature_news.utils.ArticleAdapter
+import com.peeranm.worldnews.feature_news.utils.ArticleLoadStateAdapter
 import com.peeranm.worldnews.feature_news.utils.OnItemClickListener
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,7 +62,7 @@ class SearchResultFragment : Fragment(), OnItemClickListener<Article> {
     private fun FragmentSearchResultBinding.bindList() {
         adapter = ArticleAdapter(this@SearchResultFragment)
         val layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        listSearchResults.adapter = adapter
+        listSearchResults.adapter = adapter?.withLoadStateFooter(footer = ArticleLoadStateAdapter { adapter?.retry() })
         listSearchResults.layoutManager = layoutManager
         listSearchResults.addItemDecoration(DividerItemDecoration(requireContext(), layoutManager.orientation))
     }
