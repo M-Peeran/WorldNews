@@ -57,12 +57,16 @@ class NewsFragment : Fragment(),
         setHasOptionsMenu(true)
         handleOnBackPressed()
         setActionbarTitle(R.string.headlines)
-        binding.bindNewsCategories()
         binding.bindList()
 
         collectWithLifecycle(viewModel.articles) {
             adapter?.submitData(it)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.bindNewsCategories()
     }
 
     private fun FragmentNewsBinding.bindList() {
